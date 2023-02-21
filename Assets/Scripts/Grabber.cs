@@ -24,7 +24,7 @@ public abstract class Grabber : MonoBehaviour
         }
     }
 
-    protected void OnTriggerExit(Collider c)
+    protected virtual void OnTriggerExit(Collider c)
     {
         if (c.gameObject == target)
         {

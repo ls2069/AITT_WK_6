@@ -8,23 +8,28 @@ using Valve.VR;
 public class ViveSpringGrabber : Grabber
 {
     public string grabAction = "GrabPinch";
-    private SpringJoint joint;
-    
-    new void Start ()
+    private HingeJoint joint;
+    private ChestHingeVibrate vib;
+
+    new void Start()
     {
         base.Start();
-        joint = GetComponent<SpringJoint>();
+        joint = GetComponent<HingeJoint>();
     }
-	
-	protected override void Update ()
+
+    protected override void Update()
     {
         if (joint.connectedBody == null && target != null && SteamVR_Input.GetStateDown(grabAction, controller.inputSource))
         {
             joint.connectedBody = target.GetComponent<Rigidbody>();
+            vib = target.GetComponent<ChestHingeVibrate>();
+            vib.controller = controller;
         }
         else if (joint.connectedBody != null && SteamVR_Input.GetStateUp(grabAction, controller.inputSource))
         {
+            vib.controller = null;
             joint.connectedBody = null;
         }
     }
+
 }
